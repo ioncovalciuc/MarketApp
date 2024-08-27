@@ -22,10 +22,22 @@ public class ProductService {
     }
 
     public Product saveProduct(Product product) {
-        return productRepository.save(product);
+        try {
+            return productRepository.save(product);
+        } catch (Exception e) {
+            // Log the exception
+            System.err.println("Error saving product: " + e.getMessage());
+            throw new RuntimeException("Error saving product: " + e.getMessage());
+        }
     }
 
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        try {
+            productRepository.deleteById(id);
+        } catch (Exception e) {
+            // Log the exception
+            System.err.println("Error deleting product: " + e.getMessage());
+            throw new RuntimeException("Error deleting product: " + e.getMessage());
+        }
     }
 }

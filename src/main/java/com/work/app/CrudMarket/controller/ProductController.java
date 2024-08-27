@@ -29,8 +29,13 @@ public class ProductController {
     }
 
     @PostMapping("/saveProduct")
-    public String saveProduct(@ModelAttribute("product") Product product) {
-        productService.saveProduct(product);
+    public String saveProduct(@ModelAttribute("product") Product product, Model model) {
+        try {
+            productService.saveProduct(product);
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "new_product";
+        }
         return "redirect:/";
     }
 
@@ -42,8 +47,13 @@ public class ProductController {
     }
 
     @GetMapping("/deleteProduct/{id}")
-    public String deleteProduct(@PathVariable(value = "id") long id) {
-        productService.deleteProduct(id);
+    public String deleteProduct(@PathVariable(value = "id") long id, Model model) {
+        try {
+            productService.deleteProduct(id);
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "index";
+        }
         return "redirect:/";
     }
 }
